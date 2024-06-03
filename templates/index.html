@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Video App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .header-content h1 {
+            margin: 0 20px;
+        }
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .header-buttons a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .header-buttons a:hover {
+            text-decoration: underline;
+        }
+        nav {
+            text-align: center;
+            margin: 20px 0;
+            width: 100%;
+            padding-top: 60px; /* Add padding to avoid overlap with fixed header */
+        }
+        nav a {
+            margin: 0 15px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px; /* Add padding to avoid overlap with fixed header */
+        }
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            padding: 15px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding-top: 70px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+        .sidebar ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+        .sidebar ul li a:hover {
+            color: #4CAF50;
+        }
+        .sidebar button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .sidebar button:hover {
+            background-color: #45a049;
+        }
+        .sidebar button i {
+            margin-right: 5px;
+        }
+        .sidebar p {
+            font-size: 12px;
+            color: #666;
+        }
+        .content {
+            margin-left: 270px; /* Ajusta según el ancho del sidebar */
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .videos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+        .video-item {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 480px; /* Ajusta el ancho máximo según tus necesidades */
+        }
+        video {
+            width: 100%;
+            height: auto;
+            max-height: 270px; /* Ajusta la altura máxima según tus necesidades */
+            border-radius: 10px;
+        }
+        .video-buttons {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .video-buttons button {
+            background-color: transparent;
+            color: #4CAF50;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        .video-buttons button:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>TikTok</h1>
+        </div>
+        <div class="header-buttons">
+            <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Inicio</a>
+            <a href="{{ url_for('upload') }}"><i class="fas fa-upload"></i> Subir Video</a>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <h2>Para ti</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-compass"></i> Para ti</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Siguiendo</a></li>
+            <li><a href="#"><i class="fas fa-user-friends"></i> Amigos</a></li>
+            <li><a href="#"><i class="fas fa-search"></i> Explorar</a></li>
+            <li><a href="#"><i class="fas fa-bolt"></i> Nuevo</a></li>
+            <li><a href="#"><i class="fas fa-broadcast-tower"></i> LIVE</a></li>
+            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
+        </ul>
+        <button><i class="fas fa-sign-in-alt"></i> Iniciar sesión</button>
+        <p>Inicia sesión para seguir a creadores, dar un me gusta a videos y ver comentarios.</p>
+        <h2>Crea efectos de TikTok</h2>
+        <h2>Compañía</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-info-circle"></i> Acerca de</a></li>
+            <li><a href="#"><i class="fas fa-newspaper"></i> Sala de prensa</a></li>
+            <li><a href="#"><i class="fas fa-phone"></i> Contactos</a></li>
+            <li><a href="#"><i class="fas fa-briefcase"></i> Vacantes</a></li>
+        </ul>
+        <h2>Programa</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-heart"></i> TikTok for Good</a></li>
+            <li><a href="#"><i class="fas fa-ad"></i> Publicidad</a></li>
+            <li><a href="#"><i class="fas fa-broadcast-tower"></i> TikTok LIVE</a></li>
+            <li><a href="#"><i class="fas fa-network-wired"></i> Creator Networks</a></li>
+            <li><a href="#"><i class="fas fa-code"></i> Developers</a></li>
+            <li><a href="#"><i class="fas fa-chart-pie"></i> Transparencia</a></li>
+            <li><a href="#"><i class="fas fa-gift"></i> TikTok Bonus</a></li>
+            <li><a href="#"><i class="fas fa-code"></i> TikTok Embeds</a></li>
+        </ul>
+        <h2>Términos y políticas</h2>
+        <ul>
+            <li><a href="#"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+            <li><a href="#"><i class="fas fa-shield-alt"></i> Seguridad</a></li>
+            <li><a href="#"><i class="fas fa-file-alt"></i> Términos</a></li>
+            <li><a href="#"><i class="fas fa-user-shield"></i> Política de privacidad</a></li>
+            <li><a href="#"><i class="fas fa-lock"></i> Centro de privacidad</a></li>
+            <li><a href="#"><i class="fas fa-graduation-cap"></i> Creator Academy</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Normas de la comunidad</a></li>
+        </ul>
+        <p>&copy; 2024 TikTok</p>
+    </div>
+
+    <div class="content">
+
+        <div class="container videos" id="videoContainer">
+            {% if videos %}
+                <ul>
+                    {% for video in videos %}
+                        <li class="video-item">
+                            <video controls>
+                                {% if video.url %}
+                                    <source src="{{ video.url }}" type="video/mp4">
+                                {% else %}
+                                    <source src="{{ url_for('get_video_content', video_id=video._id) }}" type="video/mp4">
+                                {% endif %}
+                            </video>
+                            <div class="video-buttons">
+                                <button><i class="fas fa-thumbs-up"></i></button>
+                                <button><i class="fas fa-save"></i></button>
+                                <button><i class="fas fa-share"></i></button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No se encontraron videos.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowDown') {
+                const videos = document.querySelectorAll('video');
+                for (let i = 0; i < videos.length; i++) {
+                    if (!videos[i].paused) {
+                        videos[i].pause();
+                        if (i + 1 < videos.length) {
+                            videos[i + 1].play();
+                            videos[i + 1].scrollIntoView({ behavior: 'smooth' });
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
